@@ -25,3 +25,173 @@ video {
   display: block;
   max-width: 100%;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;800&display=swap");
+
+:root {
+  /* Light Mode Elements */
+  --element: hsl(0, 0%, 100%);
+  /* Light Mode Background */
+  --background: hsl(0, 0%, 90%);
+  /* Light Mode Text */
+  --text: hsl(200, 15%, 8%);
+  /* Light Mode Input */
+  --input: hsl(0, 0%, 100%);
+}
+/* dark theme */
+[dataTheme="dark"] {
+  /* Dark Mode Elements */
+  --element: hsl(209, 23%, 22%);
+  /* Dark Mode Background */
+  --background: hsl(207, 26%, 17%);
+  /* Dark Mode Text */
+  --text: hsl(0, 0%, 90%);
+  /* Dark Mode Input */
+  --input: hsl(209, 23%, 22%);
+}
+
+body {
+  background-color: var(--background);
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 300;
+}
+
+header {
+  background-color: var(--element);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+
+  padding: 2em 1em;
+}
+
+header h1 {
+  font-size: 1.25em;
+  font-weight: 600;
+
+  margin-right: auto;
+}
+
+.color-theme {
+  cursor: pointer;
+  display: flex;
+  gap: 0.35em;
+  font-size: 0.9em;
+  font-weight: 300;
+  user-select: none;
+}
+.color-theme .moon {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 20px;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.color-theme .solid {
+  fill: var(--text);
+}
+
+.container {
+  padding: 1.5em;
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1em;
+
+  position: relative;
+}
+
+.magnifying-glass {
+  position: absolute;
+  left: 1.75em;
+  top: 14px;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 30px;
+
+  cursor: text;
+}
+
+.country-input {
+  background-color: var(--input);
+  color: var(--text);
+
+  border: none;
+  outline: none;
+
+  width: 100%;
+  max-width: 360px;
+  padding: 0.75em;
+  padding-left: 4em;
+  font-size: 1.1em;
+}
+
+.regions-select {
+  background-color: var(--input);
+  color: var(--text);
+
+  border: none;
+  outline: none;
+
+  width: 100%;
+  max-width: 240px;
+  font-size: 1em;
+  padding: 1em 1.5em;
+
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.countries {
+  max-width: 1440px;
+
+  margin: 0 2em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: center;
+}
+
+.country {
+  width: 320px;
+
+  background-color: var(--input);
+  color: var(--text);
+
+  border-radius: 7px;
+}
+
+.country img {
+  border-radius: 7px 7px 0 0;
+}
+
+.country .infos {
+  padding: 2em;
+}
+
+.country .infos h2 {
+  font-weight: 600;
+  font-size: 1.2em;
+  padding: 0.25em 0 1.5em;
+}
+
+.country .infos p {
+  font-weight: 600;
+  font-size: 1em;
+  padding: 0.25em 0;
+}
+
+.country .infos p span {
+  font-weight: 300;
+  font-size: 1em;
+  padding: 0.25em 0;
+}
