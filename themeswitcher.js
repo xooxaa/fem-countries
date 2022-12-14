@@ -42,6 +42,17 @@ function switchTheme(e) {
 //listener for changing themes
 toggleSwitch.addEventListener("click", switchTheme, false);
 
+toggleSwitch.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    switchTheme();
+  }
+});
+
+//pre-check the dark-theme checkbox if dark-theme is set
+if (document.documentElement.getAttribute("dataTheme") == "dark") {
+  darkmode = true;
+}
+
 //pre-check the dark-theme checkbox if dark-theme is set
 if (document.documentElement.getAttribute("dataTheme") == "dark") {
   darkmode = true;

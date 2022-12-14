@@ -31,23 +31,35 @@ video {
 :root {
   /* Light Mode Elements */
   --element: hsl(0, 0%, 100%);
+  /* Light Mode Elements */
+  --highlight: hsl(0, 0%, 95%);
   /* Light Mode Background */
   --background: hsl(0, 0%, 90%);
   /* Light Mode Text */
   --text: hsl(200, 15%, 8%);
+  /* Light Mode Text */
+  --text2: hsl(200, 15%, 12%);
   /* Light Mode Input */
   --input: hsl(0, 0%, 100%);
+  /* Light Mode Shadow */
+  --shadow: hsl(0, 0%, 60%);
 }
 /* dark theme */
 [dataTheme="dark"] {
   /* Dark Mode Elements */
   --element: hsl(209, 23%, 22%);
+  /* Dark Mode Elements */
+  --highlight: hsl(209, 23%, 27%);
   /* Dark Mode Background */
   --background: hsl(207, 26%, 17%);
   /* Dark Mode Text */
   --text: hsl(0, 0%, 90%);
+  /* Dark Mode Text */
+  --text2: hsl(0, 0%, 70%);
   /* Dark Mode Input */
   --input: hsl(209, 23%, 22%);
+  /* Dark Mode Shadow */
+  --shadow: hsl(0, 0%, 10%);
 }
 
 body {
@@ -92,8 +104,106 @@ header h1 {
   fill: var(--text);
 }
 
+.debug {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+}
+
+.debug button {
+  background-color: var(--element);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  box-shadow: 0px 0px 3px var(--shadow);
+}
+
+.debug button:hover {
+  background-color: var(--shadow);
+  color: var(--text);
+  border: none;
+}
+
 .container {
-  padding: 1.5em;
+  padding: 1.5em 2em;
+
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.country-detail {
+  background-color: var(--background);
+  color: var(--text);
+}
+
+.country-detail .back-btn {
+  display: flex;
+  gap: 0.5em;
+
+  margin: 1em 0;
+  align-items: center;
+}
+
+.country-detail .arrow {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 30px;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.country-detail img {
+  width: 100%;
+  padding: 2rem 0 1rem;
+}
+
+.country-detail h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  padding: 1rem 0;
+}
+
+.country-detail p {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+
+.country-detail p span {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text2);
+}
+
+.country-detail h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1rem 0;
+}
+
+.country-detail .link-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin: 1em 0;
+}
+
+.country-detail button {
+  background-color: var(--element);
+  border: none;
+  outline: none;
+  padding: 0.5em 1em;
+  box-shadow: 0px 0px 3px var(--shadow);
+}
+
+.country-detail button:hover {
+  background-color: var(--highlight);
+  cursor: pointer;
 }
 
 .filter {
@@ -125,40 +235,37 @@ header h1 {
   border: none;
   outline: none;
 
-  width: 100%;
-  max-width: 360px;
+  min-width: 420px;
+  flex-grow: 5;
   padding: 0.75em;
   padding-left: 4em;
   font-size: 1.1em;
 }
 
-.regions-select {
+.sort-select,
+.regions-select,
+.population-select {
   background-color: var(--input);
   color: var(--text);
 
   border: none;
   outline: none;
 
-  width: 100%;
-  max-width: 240px;
+  flex-grow: 1;
   font-size: 1em;
   padding: 1em 1.5em;
 
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
-
 .countries {
-  max-width: 1440px;
-
-  margin: 0 2em;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 2em;
   display: flex;
   flex-wrap: wrap;
   gap: 2em;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .country {
@@ -168,6 +275,11 @@ header h1 {
   color: var(--text);
 
   border-radius: 7px;
+}
+
+.country:hover {
+  background-color: var(--highlight);
+  cursor: pointer;
 }
 
 .country img {
@@ -194,4 +306,9 @@ header h1 {
   font-weight: 300;
   font-size: 1em;
   padding: 0.25em 0;
+  color: var(--text2);
+}
+
+.hidden {
+  display: none;
 }
