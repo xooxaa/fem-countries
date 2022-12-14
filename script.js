@@ -1,11 +1,7 @@
 //******************************************************************************
 // variable and constant declaration
 const results = document.querySelector(".countries");
-const debugFetch = document.querySelector(".debug-fetch");
-const debugClear = document.querySelector(".debug-clear");
-const debugStore = document.querySelector(".debug-store");
-const debugRecall = document.querySelector(".debug-recall");
-const countries = [];
+let countries = [];
 
 //******************************************************************************
 // fetch all countries from https://restcountries.com/v3.1/all
@@ -57,27 +53,6 @@ const fetchCountries = function () {
 // sort countries by populations
 // sort countries by capital
 // append country cards to DOM
-
-//******************************************************************************
-//******************************************************************************
-//******************************************************************************
-// search by name
-// go through all countries and apply hidden class to those who dont match query
-
-//******************************************************************************
-// filter by region
-// go through all countries and apply hidden class to those who dont match region
-
-//******************************************************************************
-//******************************************************************************
-//******************************************************************************
-// clicking on a country reveals detail information and hides filter and countries
-// back button hides detail information and shows filter and countries
-
-debugFetch.addEventListener("click", () => {
-  fetchCountries();
-});
-
 // <div class="country">
 //   <img src="./ger.webp" alt="German Flag" />
 //   <div class="infos">
@@ -87,3 +62,45 @@ debugFetch.addEventListener("click", () => {
 //     <p>Capital: <span>Berlin</span></p>
 //   </div>
 // </div>
+
+//******************************************************************************
+// search by name or capital
+// go through all countries and apply hidden class to those who dont match query
+
+//******************************************************************************
+// filter by region
+// go through all countries and apply hidden class to those who dont match region
+// filter by population
+// go through all countries and apply hidden class to those who have less than x inheritants
+
+//******************************************************************************
+// event listeners
+// debug buttons
+const debugFetch = document.querySelector(".debug-fetch");
+const debugClear = document.querySelector(".debug-clear");
+const debugStore = document.querySelector(".debug-store");
+const debugRecall = document.querySelector(".debug-recall");
+
+debugFetch.addEventListener("click", () => {
+  fetchCountries();
+});
+
+debugClear.addEventListener("click", () => {
+  localStorage.removeItem("countries");
+});
+
+debugStore.addEventListener("click", () => {
+  localStorage.setItem("countries", JSON.stringify(countries));
+});
+
+debugRecall.addEventListener("click", () => {
+  // JSON.parse(JSON.stringify(nestedArray));
+  countries = JSON.parse(localStorage.getItem("countries"));
+  console.log(countries);
+});
+
+// clicking on a country reveals detail information and hides filter and countries
+// back button hides detail information and shows filter and countries
+
+//******************************************************************************
+// initialy check if countries are already locally stored then recall else fetch
