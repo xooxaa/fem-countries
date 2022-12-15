@@ -160,6 +160,7 @@ header h1 {
 
 .country-detail img {
   width: 100%;
+  max-width: 480px;
   padding: 2rem 0 1rem;
 }
 
