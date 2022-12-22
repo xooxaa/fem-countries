@@ -102,18 +102,33 @@
           <option value="Asia">Asia</option>
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
+          <option value="Antarctic">Antarctic</option>
         </select>
         <select
           class="population-select"
-          id="populations"
+          id="populations-min"
           name="population-filter"
         >
-          <option value="">Filter by Population</option>
+          <option value="0">Filter by min Population</option>
+          <option value="10000">More than 10.000</option>
           <option value="100000">More than 100.000</option>
           <option value="1000000">More than 1.000.000</option>
           <option value="10000000">More than 10.000.000</option>
           <option value="100000000">More than 100.000.000</option>
           <option value="1000000000">More than 1.000.000.000</option>
+        </select>
+        <select
+          class="population-select"
+          id="populations-max"
+          name="population-filter"
+        >
+          <option value="10000000000">Filter by max Population</option>
+          <option value="10000">Less than 10.000</option>
+          <option value="100000">Less than 100.000</option>
+          <option value="1000000">Less than 1.000.000</option>
+          <option value="10000000">Less than 10.000.000</option>
+          <option value="100000000">Less than 100.000.000</option>
+          <option value="1000000000">Less than 1.000.000.000</option>
         </select>
       </section>
     </div>

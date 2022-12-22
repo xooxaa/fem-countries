@@ -8,7 +8,8 @@ const backBtn = document.querySelector(".back-btn");
 const searchInput = document.querySelector(".country-input");
 const sortSelect = document.querySelector(".sort-select");
 const regionsSelect = document.querySelector(".regions-select");
-const populationSelect = document.querySelector(".population-select");
+const populationMinSelect = document.querySelector("#populations-min");
+const populationMaxSelect = document.querySelector("#populations-max");
 let countries = [];
 
 //******************************************************************************
@@ -70,10 +71,6 @@ const fillCountries = function () {
     const newDivCountry = document.createElement("div");
     const newImgFlag = document.createElement("img");
     const newDivInfo = document.createElement("div");
-    // const newH2 = document.createElement("h2");
-    // const newPopulation = document.createElement("p");
-    // const newPRegion = document.createElement("p");
-    // const newCapital = document.createElement("p");
     newDivCountry.classList.add("country");
     newImgFlag.src = country.flag;
     newDivInfo.classList.add("infos");
@@ -86,24 +83,30 @@ const fillCountries = function () {
 
     newDivCountry.append(newImgFlag);
     newDivCountry.append(newDivInfo);
-
     results.append(newDivCountry);
   }
 };
 
-// <div class="country">
-//   <img src="./ger.webp" alt="German Flag" />
-//   <div class="infos">
-//     <h2>Germany</h2>
-//     <p>Population: <span>2.738.131</span></p>
-//     <p>Region: <span>Europe</span></p>
-//     <p>Capital: <span>Berlin</span></p>
-//   </div>
-// </div>
-
 //******************************************************************************
 // search by name or capital
-// go through all countries and apply hidden class to those who dont match query
+searchInput.addEventListener("input", () => {
+  // go through all countries and apply hidden class to those who dont match query
+  const q = searchInput.value.toLowerCase();
+  if (q) {
+    regionsSelect.selectedIndex = 0;
+    populationMinSelect.selectedIndex = 0;
+    populationMaxSelect.selectedIndex = 0;
+    sortSelect.selectedIndex = 0;
+  }
+  for (let countryDiv of results.children) {
+    countryDiv.classList.remove("hidden");
+    const name = countryDiv.children[1].children[0].textContent.toLowerCase();
+    const capital = countryDiv.children[1].children[3].children[0].textContent.toLowerCase();
+    if (name.indexOf(q) < 0 && capital.indexOf(q) < 0) {
+      countryDiv.classList.add("hidden");
+    }
+  }
+});
 
 //******************************************************************************
 // filter by region and/or population
@@ -117,39 +120,54 @@ const filterCountries = function () {
         .replaceAll(".", "")
         .replaceAll(",", "")
     );
+
     if (
       regionsSelect.value &&
       !(region.toLowerCase() === regionsSelect.value.toLowerCase())
     ) {
       countryDiv.classList.add("hidden");
+      searchInput.value = "";
     }
-    populationCap = Number(populationSelect.value);
+
+    let populationCap = Number(populationMinSelect.value);
     if (population < populationCap) {
       countryDiv.classList.add("hidden");
+      searchInput.value = "";
+    }
+
+    populationCap = Number(populationMaxSelect.value);
+    if (population >= populationCap) {
+      countryDiv.classList.add("hidden");
+      searchInput.value = "";
     }
   }
 };
 regionsSelect.addEventListener("change", () => {
   filterCountries();
 });
-populationSelect.addEventListener("change", () => {
+populationMinSelect.addEventListener("change", () => {
+  filterCountries();
+});
+populationMaxSelect.addEventListener("change", () => {
   filterCountries();
 });
 
 //******************************************************************************
-// event listeners
-// debug buttons
-
 // clicking on a country reveals detail information and hides filter and countries
 results.addEventListener("click", () => {
+  //check where the click was triggered
+
+  //hide results and filter then show detail page
   results.classList.add("hidden");
   filter.classList.add("hidden");
   countryDetail.classList.remove("hidden");
   backBtn.scrollIntoView();
   header.scrollIntoView();
 });
+
 // back button hides detail information and shows filter and countries
 backBtn.addEventListener("click", () => {
+  //hide detail page then show filter and results
   results.classList.remove("hidden");
   filter.classList.remove("hidden");
   countryDetail.classList.add("hidden");
@@ -167,7 +185,14 @@ if (!JSON.parse(localStorage.getItem("countries"))) {
   fillCountries();
 }
 
+// reset filter inputs upon (re-)load
 searchInput.value = "";
 regionsSelect.selectedIndex = 0;
-populationSelect.selectedIndex = 0;
+populationMinSelect.selectedIndex = 0;
+populationMaxSelect.selectedIndex = 0;
 sortSelect.selectedIndex = 0;
+
+setTimeout(() => {
+  console.clear();
+  console.log(countries);
+}, 1000);
