@@ -43,6 +43,10 @@ const fetchCountries = function () {
           borders: [...country.borders],
         };
 
+        if (!country.capital[0]) {
+          countries[index].capital = "N/A";
+        }
+
         if (country.currencies) {
           const currs = Object.keys(country.currencies);
           for (curr of currs) {
@@ -51,6 +55,7 @@ const fetchCountries = function () {
           }
         }
       }
+      sortByName(countries);
       localStorage.setItem("countries", JSON.stringify(countries));
       console.log("succesfully fetched countries from api", countries);
       fillCountries();
@@ -60,67 +65,9 @@ const fetchCountries = function () {
     });
 };
 
-//******************************************************************************
-// sort countries by name
-const sortByName = function (data) {
-  data.sort((a, b) => {
-    const nameA = a.name.common.toUpperCase(); // ignore upper and lowercase
-    const nameB = b.name.common.toUpperCase(); // ignore upper and lowercase
-
-    return nameA.localeCompare(nameB);
-  });
-};
-
-// sort countries by capital
-const sortByCapital = function (data) {
-  data.sort((a, b) => {
-    const capA = a.capital[0].toUpperCase(); // ignore upper and lowercase
-    const capB = b.capital[0].toUpperCase(); // ignore upper and lowercase
-
-    return capA.localeCompare(capB);
-  });
-};
-
-// sort countries by region
-const sortByRegion = function (data) {
-  data.sort((a, b) => {
-    const regionA = a.region;
-    const regionB = b.region;
-
-    if (regionA < regionB) {
-      return -1;
-    }
-    if (regionA > regionB) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  });
-};
-
-// sort countries by populations
-const sortByPopulation = function (data) {
-  data.sort((a, b) => {
-    const popA = a.population;
-    const popB = b.population;
-
-    if (popA > popB) {
-      return -1;
-    }
-    if (popA < popB) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  });
-};
-
-
-
 // append country cards to DOM
 const fillCountries = function () {
+  results.innerHTML = "";
   for (let country of countries) {
     const newDivCountry = document.createElement("div");
     const newImgFlag = document.createElement("img");
@@ -142,6 +89,83 @@ const fillCountries = function () {
 };
 
 //******************************************************************************
+// sort countries by name
+const sortByName = function (data) {
+  data.sort((a, b) => {
+    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+
+    return nameA.localeCompare(nameB);
+  });
+};
+
+// sort countries by capital
+const sortByCapital = function (data) {
+  data.sort((a, b) => {
+    const capA = a.capital; // ignore upper and lowercase
+    const capB = b.capital; // ignore upper and lowercase
+
+    return capA.localeCompare(capB);
+  });
+};
+
+// sort countries by region
+const sortByRegion = function (data) {
+  data.sort((a, b) => {
+    const regionA = a.region;
+    const regionB = b.region;
+
+    if (regionA < regionB) {
+      return -1;
+    }
+    if (regionA > regionB) {
+      return 1;
+    }
+
+    return 0;
+  });
+};
+
+// sort countries by populations
+const sortByPopulation = function (data) {
+  data.sort((a, b) => {
+    const popA = a.population;
+    const popB = b.population;
+
+    if (popA > popB) {
+      return -1;
+    }
+    if (popA < popB) {
+      return 1;
+    }
+
+    return 0;
+  });
+};
+
+// event listener for sort select
+sortSelect.addEventListener("input", () => {
+  if (sortSelect.value === "Name") {
+    sortByName(countries);
+  }
+
+  if (sortSelect.value === "Capital") {
+    sortByCapital(countries);
+  }
+
+  if (sortSelect.value === "Region") {
+    sortByRegion(countries);
+  }
+
+  if (sortSelect.value === "Population") {
+    sortByPopulation(countries);
+  }
+
+  fillCountries();
+});
+
+
+//******************************************************************************
 // search by name or capital
 searchInput.addEventListener("input", () => {
   // go through all countries and apply hidden class to those who dont match query
@@ -150,7 +174,6 @@ searchInput.addEventListener("input", () => {
     regionsSelect.selectedIndex = 0;
     populationMinSelect.selectedIndex = 0;
     populationMaxSelect.selectedIndex = 0;
-    sortSelect.selectedIndex = 0;
   }
   for (let countryDiv of results.children) {
     countryDiv.classList.remove("hidden");
@@ -196,6 +219,8 @@ const filterCountries = function () {
     }
   }
 };
+
+// event linsteners for region and population selects
 regionsSelect.addEventListener("change", () => {
   filterCountries();
 });
@@ -245,8 +270,3 @@ regionsSelect.selectedIndex = 0;
 populationMinSelect.selectedIndex = 0;
 populationMaxSelect.selectedIndex = 0;
 sortSelect.selectedIndex = 0;
-
-setTimeout(() => {
-  console.clear();
-  console.log(countries);
-}, 1000);

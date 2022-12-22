@@ -74,7 +74,7 @@ header {
   display: flex;
   align-items: center;
 
-  padding: 2em 1em;
+  padding: 2em 3em;
 }
 
 header h1 {
@@ -102,31 +102,6 @@ header h1 {
 
 .color-theme .solid {
   fill: var(--text);
-}
-
-.debug {
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem 0;
-  display: flex;
-  gap: 1rem;
-  justify-content: space-around;
-}
-
-.debug button {
-  background-color: var(--element);
-  color: var(--text);
-  padding: 0.5rem 1rem;
-  border: none;
-  outline: none;
-  box-shadow: 0px 0px 3px var(--shadow);
-}
-
-.debug button:hover {
-  background-color: var(--shadow);
-  color: var(--text);
-  border: none;
 }
 
 .container {
@@ -277,6 +252,7 @@ header h1 {
   color: var(--text);
 
   border-radius: 7px;
+
 }
 
 .country:hover {
