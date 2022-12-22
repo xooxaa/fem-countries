@@ -44,6 +44,7 @@ video {
   /* Light Mode Shadow */
   --shadow: hsl(0, 0%, 60%);
 }
+
 /* dark theme */
 [dataTheme="dark"] {
   /* Dark Mode Elements */
@@ -92,6 +93,7 @@ header h1 {
   font-weight: 300;
   user-select: none;
 }
+
 .color-theme .moon {
   fill: none;
   stroke: var(--text);
@@ -231,6 +233,20 @@ header h1 {
   flex-grow: 1;
   font-size: 1em;
   padding: 1em 1.5em;
+
+  cursor: pointer;
+}
+
+.reset-btn {
+  background-color: var(--input);
+  color: var(--text);
+
+  border: none;
+  outline: none;
+
+  flex-grow: 1;
+  font-size: 1em;
+  padding: 1em 1em;
 
   cursor: pointer;
 }

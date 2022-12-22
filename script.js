@@ -10,6 +10,7 @@ const sortSelect = document.querySelector(".sort-select");
 const regionsSelect = document.querySelector(".regions-select");
 const populationMinSelect = document.querySelector("#populations-min");
 const populationMaxSelect = document.querySelector("#populations-max");
+const resetButton = document.querySelector(".reset-btn");
 let countries = [];
 
 //******************************************************************************
@@ -162,27 +163,14 @@ sortSelect.addEventListener("input", () => {
   }
 
   fillCountries();
+  filterCountries();
 });
 
 
 //******************************************************************************
 // search by name or capital
 searchInput.addEventListener("input", () => {
-  // go through all countries and apply hidden class to those who dont match query
-  const q = searchInput.value.toLowerCase();
-  if (q) {
-    regionsSelect.selectedIndex = 0;
-    populationMinSelect.selectedIndex = 0;
-    populationMaxSelect.selectedIndex = 0;
-  }
-  for (let countryDiv of results.children) {
-    countryDiv.classList.remove("hidden");
-    const name = countryDiv.children[1].children[0].textContent.toLowerCase();
-    const capital = countryDiv.children[1].children[3].children[0].textContent.toLowerCase();
-    if (name.indexOf(q) < 0 && capital.indexOf(q) < 0) {
-      countryDiv.classList.add("hidden");
-    }
-  }
+  filterCountries();
 });
 
 //******************************************************************************
@@ -190,32 +178,53 @@ searchInput.addEventListener("input", () => {
 const filterCountries = function () {
   // go through all countries and apply hidden class to those who dont match criteria
   for (let countryDiv of results.children) {
+    // remove hidden class by default
     countryDiv.classList.remove("hidden");
+
+    //search query
+    const q = searchInput.value.toLowerCase();
+    //country name
+    const name = countryDiv.children[1].children[0].textContent.toLowerCase();
+    // copuntry capital
+    const capital = countryDiv.children[1].children[3].children[0].textContent.toLowerCase();
+
+    // apply hidden class to those who dont match query
+    if (name.indexOf(q) < 0 && capital.indexOf(q) < 0) {
+      countryDiv.classList.add("hidden");
+    }
+
+    // country region
     const region = countryDiv.children[1].children[2].children[0].textContent;
+
+    // apply hidden class if regions dont match
+    if (
+      regionsSelect.value &&
+      !(region.toLowerCase() === regionsSelect.value.toLowerCase())
+    ) {
+      countryDiv.classList.add("hidden");
+    }
+
+    // country population
     const population = Number(
       countryDiv.children[1].children[1].children[0].textContent
         .replaceAll(".", "")
         .replaceAll(",", "")
     );
 
-    if (
-      regionsSelect.value &&
-      !(region.toLowerCase() === regionsSelect.value.toLowerCase())
-    ) {
-      countryDiv.classList.add("hidden");
-      searchInput.value = "";
-    }
-
+    // population cap for min select
     let populationCap = Number(populationMinSelect.value);
+
+    // apply hidden class if population is below min cap
     if (population < populationCap) {
       countryDiv.classList.add("hidden");
-      searchInput.value = "";
     }
 
+    // population cap for max select
     populationCap = Number(populationMaxSelect.value);
+
+    // apply hidden class if population is over max cap
     if (population >= populationCap) {
       countryDiv.classList.add("hidden");
-      searchInput.value = "";
     }
   }
 };
@@ -230,6 +239,24 @@ populationMinSelect.addEventListener("change", () => {
 populationMaxSelect.addEventListener("change", () => {
   filterCountries();
 });
+
+//******************************************************************************
+// reset all Filters
+const resetFilter = function () {
+  searchInput.value = "";
+  regionsSelect.selectedIndex = 0;
+  populationMinSelect.selectedIndex = 0;
+  populationMaxSelect.selectedIndex = 0;
+  sortSelect.selectedIndex = 0;
+};
+
+resetButton.addEventListener("click", () => {
+
+  resetFilter();
+  sortByName(countries);
+  fillCountries();
+});
+
 
 //******************************************************************************
 // clicking on a country reveals detail information and hides filter and countries
@@ -265,8 +292,4 @@ if (!JSON.parse(localStorage.getItem("countries"))) {
 }
 
 // reset filter inputs upon (re-)load
-searchInput.value = "";
-regionsSelect.selectedIndex = 0;
-populationMinSelect.selectedIndex = 0;
-populationMaxSelect.selectedIndex = 0;
-sortSelect.selectedIndex = 0;
+resetFilter();
