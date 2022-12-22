@@ -2,6 +2,8 @@
 // variable and constant declaration
 const header = document.querySelector("header");
 const results = document.querySelector(".countries");
+const detailPage = document.querySelector("#detail-page-infos");
+const detailFlag = document.querySelector("#detail-flag");
 const filter = document.querySelector(".filter");
 const countryDetail = document.querySelector(".country-detail");
 const backBtn = document.querySelector(".back-btn");
@@ -73,14 +75,19 @@ const fillCountries = function () {
     const newDivCountry = document.createElement("div");
     const newImgFlag = document.createElement("img");
     const newDivInfo = document.createElement("div");
+
+    newDivCountry.setAttribute("country", country.name);
+    newImgFlag.setAttribute("country", country.name);
+    newDivInfo.setAttribute("country", country.name);
+
     newDivCountry.classList.add("country");
     newImgFlag.src = country.flag;
     newDivInfo.classList.add("infos");
     newDivInfo.innerHTML = `
-      <h2>${country.name}</h2>
-      <p>Population: <span>${country.population.toLocaleString()}</span></p>
-      <p>Region: <span>${country.region}</span></p>
-      <p>Capital: <span>${country.capital}</span></p>
+      <h2 country="${country.name}">${country.name}</h2>
+      <p country="${country.name}">Population: <span country="${country.name}">${country.population.toLocaleString()}</span></p>
+      <p country="${country.name}">Region: <span country="${country.name}">${country.region}</span></p>
+      <p country="${country.name}">Capital: <span country="${country.name}">${country.capital}</span></p>
     `;
 
     newDivCountry.append(newImgFlag);
@@ -260,15 +267,45 @@ resetButton.addEventListener("click", () => {
 
 //******************************************************************************
 // clicking on a country reveals detail information and hides filter and countries
-results.addEventListener("click", () => {
+results.addEventListener("click", (e) => {
   //check where the click was triggered
+  const country = e.target.getAttribute("country");
 
-  //hide results and filter then show detail page
-  results.classList.add("hidden");
-  filter.classList.add("hidden");
-  countryDetail.classList.remove("hidden");
-  backBtn.scrollIntoView();
-  header.scrollIntoView();
+  if (country !== null) {
+    const index = findCountryByName(country);
+    detailFlag.src = countries[index].flag;
+    detailPage.innerHTML = `
+      <h2>${countries[index].name}</h2>
+      <p>Official Name: <span>${countries[index].official}</span></p>
+      <p>Population: <span>${countries[index].population.toLocaleString()}</span></p>
+      <p>Region: <span>${countries[index].region}</span></p>
+      <p>Sub Region: <span>${countries[index].subregion}</span></p>
+      <p>Capital: <span>${countries[index].capital}</span></p>
+      <br />
+      <p>Top Level Domain: <span>${countries[index].toplevel}</span></p>
+      <p>Currencies: <span>${countries[index].currencies.toString()}</span></p>
+      <p>Languages: <span>${countries[index].languages.toString()}</span></p>
+      <br />
+      <h3>Border Countries:</h3>
+      <div class="link-btns">
+        <button>Denmark</button>
+        <button>Poland</button>
+        <button>Czeck Republic</button>
+        <button>Austria</button>
+        <button>Switzerland</button>
+        <button>France</button>
+        <button>Luxembourg</button>
+        <button>Belgium</button>
+        <button>Netherlands</button>
+      </div>`;
+
+    //hide results and filter then show detail page
+    results.classList.add("hidden");
+    filter.classList.add("hidden");
+    countryDetail.classList.remove("hidden");
+    backBtn.scrollIntoView();
+    header.scrollIntoView();
+  }
 });
 
 // back button hides detail information and shows filter and countries
@@ -280,6 +317,14 @@ backBtn.addEventListener("click", () => {
   filter.scrollIntoView();
   header.scrollIntoView();
 });
+
+const findCountryByName = function (name) {
+  for (let country of countries) {
+    if (country.name.toUpperCase() === name.toUpperCase()) return countries.indexOf(country);
+  }
+}
+
+
 
 //******************************************************************************
 // initialy check if countries are already locally stored then recall else fetch
