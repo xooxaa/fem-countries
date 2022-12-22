@@ -73,6 +73,7 @@ const sortByName = function (data) {
 
 // sort countries by capital
 
+
 // sort countries by region
 const sortByRegion = function (data) {
   data.sort((a, b) => {
