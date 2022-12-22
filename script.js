@@ -62,8 +62,54 @@ const fetchCountries = function () {
 
 //******************************************************************************
 // sort countries by name
-// sort countries by populations
+const sortByName = function (data) {
+  data.sort((a, b) => {
+    const nameA = a.name.common.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.common.toUpperCase(); // ignore upper and lowercase
+
+    return nameA.localeCompare(nameB);
+  });
+};
+
 // sort countries by capital
+
+// sort countries by region
+const sortByRegion = function (data) {
+  data.sort((a, b) => {
+    const regionA = a.region;
+    const regionB = b.region;
+
+    if (regionA < regionB) {
+      return -1;
+    }
+    if (regionA > regionB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+};
+
+// sort countries by populations
+const sortByPopulation = function (data) {
+  data.sort((a, b) => {
+    const popA = a.population;
+    const popB = b.population;
+
+    if (popA > popB) {
+      return -1;
+    }
+    if (popA < popB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+};
+
+
 
 // append country cards to DOM
 const fillCountries = function () {
