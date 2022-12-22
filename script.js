@@ -72,7 +72,14 @@ const sortByName = function (data) {
 };
 
 // sort countries by capital
+const sortByCapital = function (data) {
+  data.sort((a, b) => {
+    const capA = a.capital[0].toUpperCase(); // ignore upper and lowercase
+    const capB = b.capital[0].toUpperCase(); // ignore upper and lowercase
 
+    return capA.localeCompare(capB);
+  });
+};
 
 // sort countries by region
 const sortByRegion = function (data) {
